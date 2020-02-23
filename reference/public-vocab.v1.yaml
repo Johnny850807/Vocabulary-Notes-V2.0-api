@@ -1,0 +1,395 @@
+openapi: 3.0.0
+info:
+  title: dictionaries
+  version: '1.0'
+  description: Public dictionary source api
+  contact:
+    name: johnny850807
+    url: 'https://github.com/Johnny850807'
+    email: johnny850807@gmail.com
+servers:
+  - url: 'http://localhost:8080'
+    description: dictionaries
+paths:
+  '/api/public/dictionaries/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get a dictionary by title
+      operationId: get-api-public-dictionaries-title
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dictionary.v1.yaml
+              examples: {}
+      parameters: []
+    delete:
+      summary: Delete a dictionary by title
+      operationId: delete-api-public-dictionaries-title
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+    patch:
+      summary: ''
+      operationId: patch-api-public-dictionaries-id
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+            examples:
+              Patch title and description:
+                value:
+                  title: Toeic Level 2
+                  description: modified
+        description: ''
+      security:
+        - JWT Token: []
+  /api/public/dictionaries:
+    post:
+      summary: Create a dictionary
+      operationId: post-api-public-dictionaries
+      responses:
+        '200':
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dictionary.v1.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/dictionary-post'
+            examples: {}
+      description: ''
+      security:
+        - JWT Token: []
+    get:
+      summary: Get all dictionaries
+      operationId: get-api-public-dictionaries
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: offset
+        - schema:
+            type: integer
+          in: query
+          name: limit
+  '/api/public/wordgroups/{id}':
+    get:
+      summary: Get a word group by id
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/wordgroup.v1.yaml
+            application/xml:
+              schema:
+                $ref: ../models/wordgroup.v1.yaml
+      operationId: get-api-public-wordgroups
+      requestBody: {}
+      description: ''
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    delete:
+      summary: Delete a word group by title
+      operationId: delete-api-public-wordgroups-title
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+    patch:
+      summary: ''
+      operationId: patch-api-public-wordgroups-id
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/wordgroup-patch'
+            examples: {}
+  '/api/public/word/{name}':
+    get:
+      summary: Get a word by name
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/word.v1.yaml
+      operationId: get-api-public-word
+      description: ''
+    parameters:
+      - schema:
+          type: string
+        name: name
+        in: path
+        required: true
+    delete:
+      summary: Delete a word by name
+      operationId: delete-api-public-word-name
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+    patch:
+      summary: Patch a word with new image url by name
+      operationId: patch-api-public-word-name
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                description: "image's url"
+      security:
+        - JWT Token: []
+      requestBody: {}
+  '/api/public/dictionaries/{dictionary_id}/wordgroups/{wordgroup_id}':
+    parameters:
+      - schema:
+          type: integer
+        name: dictionary_id
+        in: path
+        required: true
+        description: ''
+      - schema:
+          type: integer
+        name: wordgroup_id
+        in: path
+        required: true
+    delete:
+      summary: Delete a wordgroup into from a public dictionary
+      operationId: delete-api-public-dictionaries-dictionary_title-wordgroups-wordgroup_title
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+    post:
+      summary: Add a word group into a public dictionary
+      operationId: post-api-public-dictionaries-dictionary_title-wordgroups-wordgroup_title
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+  '/api/public/word/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    put:
+      summary: Update a word by id
+      operationId: put-api-public-word-id
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/word-post'
+        description: ''
+      security:
+        - JWT Token: []
+  '/api/public/wordgroup/{wordgroup_id}/word/{word_name}':
+    parameters:
+      - schema:
+          type: integer
+        name: wordgroup_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: word_name
+        in: path
+        required: true
+    post:
+      summary: Add a word into a word group
+      operationId: post-api-public-wordgroup-wordgroup_title-word-name
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+    delete:
+      summary: Delete a word from a word group
+      operationId: delete-api-public-wordgroup-wordgroup_title-word-name
+      responses:
+        '200':
+          description: OK
+      security:
+        - JWT Token: []
+  /api/public/wordgroups:
+    post:
+      summary: Create a word group
+      operationId: post-api-public-wordgroups
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/wordgroup.v1.yaml
+      security:
+        - JWT Token: []
+  /api/public/word:
+    post:
+      summary: Create a word
+      operationId: post-api-public-word
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/word-post'
+      security:
+        - JWT Token: []
+  '/api/public/dictionaries/{id}/wordgroups':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get the word groups of from a dictionary
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/wordgroup.v1.yaml
+      operationId: get-api-public-dictionaries-id-wordgroups
+      requestBody: {}
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: offset
+        - schema:
+            type: integer
+          in: query
+          name: limit
+components:
+  schemas:
+    dictionary-patch:
+      title: dictionary-patch
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    dictionary-post:
+      title: dictionary-post
+      type: object
+      x-examples:
+        Create TOEIC 2:
+          title: TOEIC Level 2
+          description: The Toeic basic dictionary.
+          type: OWN
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        type:
+          type: string
+          enum:
+            - public
+            - own
+      required:
+        - title
+        - description
+        - type
+    wordgroup-post:
+      title: wordgroup-post
+      type: object
+      properties:
+        title:
+          type: string
+      required:
+        - title
+    wordgroup-patch:
+      title: wordgroup-patch
+      type: object
+      properties:
+        title:
+          type: string
+    word-post:
+      title: word-post
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 30
+        synonyms:
+          type: string
+          maxLength: 80
+        imageUrl:
+          type: string
+          pattern: "https?://(www\\\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\\\.[a-zA-Z0-9()]{1,6}\\\\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)"
+      required:
+        - name
+        - imageUrl
+  securitySchemes:
+    JWT Token:
+      type: http
+      scheme: bearer
+      description: |-
+        Send a JWT token along the request to authenticate.
+
+        401 error code is responded with an 'error' field embeded in the json response if the token is invalid.
+
+        403 error code is responded if the requesting client is unauthorized to the request.

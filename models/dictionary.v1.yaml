@@ -1,0 +1,40 @@
+title: dictionary
+type: object
+description: ''
+x-examples:
+  Toeic:
+    id: 1
+    title: TOEIC Level 1
+    description: The Toeic basic dictionary.
+    owner:
+      id: 1
+      firstName: Johnny
+      lastName: Pan
+      age: 23
+      email: johnny850807@gmail.com
+      password: hashed
+      exp: 0
+      level: 1
+      role: MEMBER
+    type: OWN
+properties:
+  id:
+    type: integer
+  title:
+    type: string
+    example: Toeic Level 1
+    minLength: 1
+    maxLength: 80
+  description:
+    type: string
+  owner:
+    $ref: ./member.v1.yaml
+  type:
+    type: string
+    enum:
+      - public
+      - own
+required:
+  - id
+  - title
+  - description

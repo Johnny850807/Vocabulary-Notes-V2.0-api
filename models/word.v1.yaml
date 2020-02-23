@@ -1,0 +1,20 @@
+title: word
+type: object
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+    minLength: 1
+    maxLength: 30
+  synonyms:
+    type: array
+    items:
+      type: string
+  imageUrl:
+    type: string
+    pattern: "https?://(www\\\\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\\\.[a-zA-Z0-9()]{1,6}\\\\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)"
+required:
+  - id
+  - name
+  - imageUrl
