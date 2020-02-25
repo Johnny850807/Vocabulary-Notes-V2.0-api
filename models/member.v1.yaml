@@ -12,8 +12,6 @@ properties:
     type: integer
   email:
     type: string
-  password:
-    type: string
   exp:
     type: integer
   level:
@@ -26,5 +24,4 @@ required:
   - lastName
   - age
   - email
-  - password
   - role

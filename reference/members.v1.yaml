@@ -5,9 +5,219 @@ info:
   description: Admin apis that manage the public dictionaries.
 servers:
   - url: 'http://localhost:3000'
-paths: {}
+paths:
+  /members/tokens:
+    post:
+      summary: Create a token
+      operationId: post-members-login
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'
+              examples: {}
+        '401':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: integer
+                  message:
+                    type: string
+              examples:
+                User name not found:
+                  value:
+                    error: 0
+                    message: The username is not found.
+                Password incorrect:
+                  value:
+                    error: 0
+                    message: The password is incorrect.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/credentials'
+    parameters: []
+    put:
+      summary: Renew the token
+      operationId: put-members-tokens
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'
+      security:
+        - JWT Token: []
+  '/members/{id}':
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get member info
+      tags: []
+      operationId: get-members-id
+      requestBody: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/member.v1.yaml
+    put:
+      summary: Update member basic info
+      operationId: put-members-id
+      responses:
+        '200':
+          description: OK
+  /members:
+    post:
+      summary: ''
+      operationId: post-members
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/member.v1.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                member:
+                  $ref: ../models/member.v1.yaml
+                credentials:
+                  $ref: '#/components/schemas/credentials'
+        description: ''
+  '/members/{mid}/own/dictionaries':
+    parameters:
+      - schema:
+          type: string
+        name: mid
+        in: path
+        required: true
+    get:
+      summary: Get own dictionaries
+      tags: []
+      responses: {}
+      operationId: get-members-id-dictionaries
+    post:
+      summary: Create own dictionary
+      operationId: post-members-id-own-dictionaries
+      responses:
+        '200':
+          description: OK
+  '/members/{mid}/public/dictionaries/{dictId}/favorite':
+    parameters:
+      - schema:
+          type: string
+        name: mid
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: dictId
+        in: path
+        required: true
+    get:
+      summary: Favorite an existing public dictionary
+      tags: []
+      responses: {}
+      operationId: get-members-id-dictionaries-favorite
+  '/members/{mId}/own/dictionaries/{dictId}':
+    parameters:
+      - schema:
+          type: string
+        name: mId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: dictId
+        in: path
+        required: true
+    get:
+      summary: Get an own dictionary
+      tags: []
+      responses: {}
+      operationId: get-members-memberId-own-dictionaries-dictionaryId
+    delete:
+      summary: Delete own dictionary
+      operationId: delete-members-mId-own-dictionaries-dictId
+      responses:
+        '200':
+          description: OK
+  '/members/{mid}/public/wordgroups/{wgId}':
+    parameters:
+      - schema:
+          type: string
+        name: mid
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: wgId
+        in: path
+        required: true
+    post:
+      summary: Reference a word group from the public dictionary into own dictionary
+      operationId: post-members-mid-public-wordgroups-wgId
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Remove a word group from own dictionary
+      operationId: delete-members-mid-public-wordgroups-wgId
+      responses:
+        '200':
+          description: OK
+  '/members/{mid}/public/wordgroups':
+    parameters:
+      - schema:
+          type: string
+        name: mid
+        in: path
+        required: true
+    get:
+      summary: Get word groups from own dictionary
+      tags: []
+      responses: {}
+      operationId: get-members-mid-public-wordgroups
 components:
-  schemas: {}
+  schemas:
+    credentials:
+      title: credentials
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+    token:
+      title: token
+      type: object
+      properties:
+        token:
+          type: string
+        memberId:
+          type: integer
   securitySchemes:
     JWT Token:
       type: http
