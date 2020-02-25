@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: vocab-admin
+  title: members
   version: '1.0'
   description: Admin apis that manage the public dictionaries.
 servers:
