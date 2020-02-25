@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: dictionaries
+  title: Public Vocab Resource
   version: '1.0'
   description: Public dictionary source api
   contact:
@@ -143,7 +143,7 @@ paths:
             schema:
               $ref: '#/components/schemas/wordgroup-patch'
             examples: {}
-  '/api/public/word/{name}':
+  '/api/public/words/{name}':
     get:
       summary: Get a word by name
       tags: []
@@ -213,7 +213,7 @@ paths:
           description: OK
       security:
         - JWT Token: []
-  '/api/public/word/{id}':
+  '/api/public/words/{id}':
     parameters:
       - schema:
           type: integer
@@ -234,7 +234,7 @@ paths:
         description: ''
       security:
         - JWT Token: []
-  '/api/public/wordgroup/{wordgroup_id}/word/{word_name}':
+  '/api/public/wordgroups/{wordgroup_id}/words/{word_name}':
     parameters:
       - schema:
           type: integer
@@ -276,7 +276,7 @@ paths:
               $ref: ../models/wordgroup.v1.yaml
       security:
         - JWT Token: []
-  /api/public/word:
+  /api/public/words:
     post:
       summary: Create a word
       operationId: post-api-public-word
@@ -290,6 +290,8 @@ paths:
               $ref: '#/components/schemas/word-post'
       security:
         - JWT Token: []
+      description: ''
+    parameters: []
   '/api/public/dictionaries/{id}/wordgroups':
     parameters:
       - schema:

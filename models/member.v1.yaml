@@ -18,8 +18,8 @@ properties:
     type: integer
   level:
     type: string
-  type:
-    type: integer
+  role:
+    type: string
 required:
   - id
   - firstName
@@ -27,4 +27,4 @@ required:
   - age
   - email
   - password
-  - type
+  - role
