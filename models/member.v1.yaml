@@ -1,4 +1,4 @@
-title: Member
+title: Member Info
 type: object
 description: ''
 properties:
@@ -16,12 +16,9 @@ properties:
     type: integer
   level:
     type: string
-  role:
-    type: string
 required:
   - id
   - firstName
   - lastName
   - age
   - email
-  - role

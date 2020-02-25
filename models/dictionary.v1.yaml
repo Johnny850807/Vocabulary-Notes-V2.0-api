@@ -27,14 +27,10 @@ properties:
     maxLength: 80
   description:
     type: string
-  owner:
-    $ref: ./member.v1.yaml
   type:
     type: string
     enum:
       - public
       - own
-required:
-  - id
-  - title
-  - description
+  ownerId:
+    type: integer

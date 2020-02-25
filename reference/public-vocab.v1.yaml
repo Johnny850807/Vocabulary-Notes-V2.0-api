@@ -78,7 +78,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/dictionary-post'
+              $ref: ../models/dictionary-post.v1.yaml
             examples: {}
       description: ''
       security:
@@ -332,28 +332,6 @@ components:
           type: string
         description:
           type: string
-    dictionary-post:
-      title: dictionary-post
-      type: object
-      x-examples:
-        Create TOEIC 2:
-          title: TOEIC Level 2
-          description: The Toeic basic dictionary.
-          type: OWN
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        type:
-          type: string
-          enum:
-            - public
-            - own
-      required:
-        - title
-        - description
-        - type
     wordgroup-post:
       title: wordgroup-post
       type: object

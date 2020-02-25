@@ -44,18 +44,6 @@ paths:
             schema:
               $ref: '#/components/schemas/credentials'
     parameters: []
-    put:
-      summary: Renew the token
-      operationId: put-members-tokens
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/token'
-      security:
-        - JWT Token: []
   '/api/members/{id}':
     parameters:
       - schema:
@@ -81,9 +69,16 @@ paths:
       responses:
         '200':
           description: OK
+      security:
+        - JWT Token: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/member-put'
   /api/members:
     post:
-      summary: ''
+      summary: Register a member
       operationId: post-members
       responses:
         '200':
@@ -107,54 +102,81 @@ paths:
   '/api/members/{mid}/own/dictionaries':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: mid
         in: path
         required: true
     get:
       summary: Get own dictionaries
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/dictionary.v1.yaml
+        '':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/dictionary.v1.yaml
       operationId: get-members-id-dictionaries
+      parameters:
+        - schema:
+            type: integer
+            default: '0'
+          in: query
+          name: offset
+        - schema:
+            type: integer
+            default: INFINITY
+          in: query
+          name: limit
+      description: ''
     post:
       summary: Create own dictionary
       operationId: post-members-id-own-dictionaries
       responses:
         '200':
           description: OK
-  '/api/members/{mid}/public/dictionaries/{dictId}/favorite':
-    parameters:
-      - schema:
-          type: string
-        name: mid
-        in: path
-        required: true
-      - schema:
-          type: string
-        name: dictId
-        in: path
-        required: true
-    get:
-      summary: Favorite an existing public dictionary
-      tags: []
-      responses: {}
-      operationId: get-members-id-dictionaries-favorite
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dictionary.v1.yaml
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../models/dictionary-post.v1.yaml
+      security:
+        - JWT Token: []
   '/api/members/{mId}/own/dictionaries/{dictId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: mId
         in: path
         required: true
       - schema:
-          type: string
+          type: integer
         name: dictId
         in: path
         required: true
     get:
       summary: Get an own dictionary
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ../models/dictionary.v1.yaml
       operationId: get-members-memberId-own-dictionaries-dictionaryId
     delete:
       summary: Delete own dictionary
@@ -165,12 +187,12 @@ paths:
   '/api/members/{mid}/public/wordgroups/{wgId}':
     parameters:
       - schema:
-          type: string
+          type: integer
         name: mid
         in: path
         required: true
       - schema:
-          type: string
+          type: integer
         name: wgId
         in: path
         required: true
@@ -186,7 +208,7 @@ paths:
       responses:
         '200':
           description: OK
-  '/api/members/{mid}/public/wordgroups':
+  '/api/members/{mid}/own/dictionaries/wordgroups':
     parameters:
       - schema:
           type: string
@@ -196,8 +218,54 @@ paths:
     get:
       summary: Get word groups from own dictionary
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ../models/wordgroup.v1.yaml
       operationId: get-members-mid-public-wordgroups
+      parameters:
+        - schema:
+            type: integer
+            default: '0'
+          in: query
+          name: offset
+        - schema:
+            type: integer
+            default: INFINITY
+          in: query
+          name: limit
+      description: ''
+  '/api/members/{mid}/tokens':
+    parameters:
+      - schema:
+          type: integer
+        name: mid
+        in: path
+        required: true
+    post:
+      summary: Renew the token
+      operationId: post-api-members-mid-tokens
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/token'
+      security:
+        - JWT Token: []
+  '/api/members/{mid}/public/dictionaries/{dictId}/favorite':
+    post:
+      summary: Favorite a public dictionary
+      operationId: post-api-members-mid-public-dictionaries-dictId-favorite
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     credentials:
@@ -219,6 +287,28 @@ components:
           type: string
         memberId:
           type: integer
+        expired:
+          type: number
+    member-put:
+      title: member-put
+      type: object
+      properties:
+        firstName:
+          type: string
+          minLength: 1
+          maxLength: 18
+        lastName:
+          type: string
+          minLength: 1
+          maxLength: 18
+        age:
+          type: integer
+          minimum: 1
+          maximum: 150
+      required:
+        - firstName
+        - lastName
+        - age
   securitySchemes:
     JWT Token:
       type: http

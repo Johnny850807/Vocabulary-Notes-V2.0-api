@@ -1,0 +1,13 @@
+title: dictionary-post
+type: object
+description: ''
+x-examples:
+  Create toeic 2:
+    title: TOEIC Level 2
+    description: The Toeic basic dictionary.
+    type: OWN
+properties:
+  title:
+    type: string
+  description:
+    type: string
