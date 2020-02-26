@@ -97,6 +97,9 @@ paths:
                   $ref: ../models/member.v1.yaml
                 credentials:
                   $ref: '#/components/schemas/credentials'
+              required:
+                - member
+                - credentials
         description: ''
     parameters: []
   '/api/members/{mid}/own/dictionaries':
@@ -167,9 +170,15 @@ paths:
         name: dictId
         in: path
         required: true
+    delete:
+      summary: Delete own dictionary
+      operationId: delete-members-mId-own-dictionaries-dictId
+      responses:
+        '200':
+          description: OK
     get:
-      summary: Get an own dictionary
-      tags: []
+      summary: Get own dictionary
+      operationId: get-api-members-mId-own-dictionaries-dictId
       responses:
         '200':
           description: OK
@@ -177,13 +186,6 @@ paths:
             application/json:
               schema:
                 $ref: ../models/dictionary.v1.yaml
-      operationId: get-members-memberId-own-dictionaries-dictionaryId
-    delete:
-      summary: Delete own dictionary
-      operationId: delete-members-mId-own-dictionaries-dictId
-      responses:
-        '200':
-          description: OK
   '/api/members/{mid}/public/wordgroups/{wgId}':
     parameters:
       - schema:
