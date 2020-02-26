@@ -259,15 +259,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/token'
+        '401':
+          description: 'The token fully expires, you should re-login.'
       security:
         - JWT Token: []
-  '/api/members/{mid}/public/dictionaries/{dictId}/favorite':
+  '/api/members/{mid}/dictionaries/{dictId}/favorite':
     post:
       summary: Favorite a public dictionary
       operationId: post-api-members-mid-public-dictionaries-dictId-favorite
       responses:
         '200':
           description: OK
+    parameters:
+      - schema:
+          type: string
+        name: mid
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: dictId
+        in: path
+        required: true
 components:
   schemas:
     credentials:

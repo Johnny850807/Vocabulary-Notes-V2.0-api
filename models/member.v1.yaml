@@ -17,8 +17,9 @@ properties:
   level:
     type: string
 required:
-  - id
   - firstName
   - lastName
   - age
   - email
+  - exp
+  - level
