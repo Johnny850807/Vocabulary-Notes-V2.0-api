@@ -8,7 +8,7 @@ servers:
 paths:
   /api/members/tokens:
     post:
-      summary: Create a token
+      summary: Log in
       operationId: post-members-login
       responses:
         '200':
@@ -30,13 +30,13 @@ paths:
                   message:
                     type: string
               examples:
-                User name not found:
+                Email not found:
                   value:
                     error: 0
-                    message: The username is not found.
+                    message: The email is not found.
                 Password incorrect:
                   value:
-                    error: 0
+                    error: 1
                     message: The password is incorrect.
       requestBody:
         content:
@@ -86,7 +86,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/member.v1.yaml
+                $ref: '#/components/schemas/token'
+        '400':
+          description: Email duplicated.
       requestBody:
         content:
           application/json:
@@ -289,8 +291,13 @@ components:
       properties:
         email:
           type: string
+          format: email
         password:
           type: string
+          format: password
+          minLength: 128
+          maxLength: 128
+          description: Hashed password with length 128
       required:
         - email
         - password
